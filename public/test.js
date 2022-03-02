@@ -11,15 +11,26 @@ class Button extends React.Component {
   render() {
     if (this.state.click) {
       return 'You clicked.';
+
     }
 
     return e(
       'button',
-      { onClick: () => this.setState({ click: true }) },
+      { onClick: () => sub()},
       'clicked'
     );
   }
 }
 
-const domContainer = document.querySelector('#container');
-ReactDOM.render(e(Button), domContainer);
+ReactDOM.render(e(Button), document.querySelector('#container'));
+//testing 
+function sub(){
+	var data = document.getElementById("col").value
+	var request = new XMLHttpRequest();
+	request.open('POST', 'http://localhost:3000/change', true);
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(data);
+}
+
+
+
