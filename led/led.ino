@@ -26,7 +26,7 @@ void SetupMDNS(String);
 void sendPost(String,String);
 void HandleLED();
 void HandleRoot();
-
+void HandleColour();
  
 void setup() {
 
@@ -39,6 +39,7 @@ void setup() {
 
   //routes
   server.on("/LED", HTTP_POST, HandleLED);
+  server.on("/colour", HTTP_POST, HandleColour);
   server.on("/", HTTP_GET, HandleRoot);
   server.begin(); 
 
@@ -52,7 +53,6 @@ void setup() {
   pinMode(BLUEPIN, OUTPUT);
   
   analogWrite(BLUEPIN, 255);
-
 }
 
 void loop() {
@@ -124,5 +124,17 @@ void HandleLED() {
  */
 void HandleRoot() {                         
   Serial.println("recieved");         
+  server.send(200);                         
+}
+
+/*
+ * handle posts to /colour 
+ * set pins to 0-255 rgb value recieved to cahnge colour of led strip 
+ */
+void HandleColour() {
+  Serial.println(server.arg("plain"));      
+  analogWrite(BLUEPIN, server.arg("blue").toInt());   
+  analogWrite(GREENPIN, server.arg("green").toInt()); 
+  analogWrite(REDPIN, server.arg("red").toInt());       
   server.send(200);                         
 }
